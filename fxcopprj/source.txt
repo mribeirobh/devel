@@ -1,0 +1,7 @@
+d:\MDOPRJ\Source\trunk\Cit.Vale.Mdo.Common\bin\Debug\Cit.Vale.Mdo.Common.dll
+d:\MDOPRJ\Source\trunk\Cit.Vale.Mdo.Components\bin\Debug\Cit.Vale.Mdo.Components.dll
+d:\MDOPRJ\Source\trunk\Cit.Vale.Mdo.Dashboard\bin\Debug\Cit.Vale.Mdo.Dashboard.dll
+d:\MDOPRJ\Source\trunk\Cit.Vale.Mdo.Improvements\bin\Debug\Cit.Vale.Mdo.Improvements.dll
+d:\MDOPRJ\Source\trunk\Cit.Vale.Mdo.Opportunities\bin\Debug\Cit.Vale.Mdo.Opportunities.dll
+d:\MDOPRJ\Source\trunk\Cit.Vale.Mdo.Projects\bin\Debug\Cit.Vale.Mdo.Projects.dll
+d:\MDOPRJ\Source\trunk\Cit.Vale.Mdo.Strategy\bin\Debug\Cit.Vale.Mdo.Strategy.dll

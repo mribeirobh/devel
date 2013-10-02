@@ -1,0 +1,3 @@
+>dir d:\MDOPRJ\Source\trunk\*dll /s/b /on | find "bin\Debug\Cit" | find /V "BuildTasks"
+>c:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe" /f:d:\teste\Watchdog.dll /out:d:\teste\relat.xml /oXsl:d:\teste\base.xsl
+>c:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe" /f:d:\teste\Cit.Vale.Mdo.Common.dll /f:d:\teste\Cit.Vale.Mdo.Components.dll /out:d:\teste\relat.xml /oXsl:none /searchgac
