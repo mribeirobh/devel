@@ -121,11 +121,33 @@
 	</div>
 </xsl:template>	
 
+<xsl:template name="Titles">
+	<xsl:param name="title"/>
+	<div class="infoDiv">
+		<ul>
+		<li>
+			<button type="button">
+			<xsl:attribute name="onclick">
+				showHide('<xsl:value-of select="$title"/>',this);
+			</xsl:attribute>
+			-</button>
+		</li>
+		<li>
+			<xsl:value-of select="$title"/> - <xsl:value-of select="count(child::*)"/>
+		</li>
+		</ul>
+	</div>
+</xsl:template>	
+
 <xsl:template match="Targets">
     
 	<xsl:variable name="nodeTitle">
 		<xsl:value-of select="name(.)"/>
 	</xsl:variable>
+
+	<xsl:call-template name="Titles">
+		<xsl:with-param name="title" select="$nodeTitle"/>
+	</xsl:call-template>
 	
 	<div class="infoDiv">
 		<ul>
