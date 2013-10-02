@@ -6,41 +6,34 @@
 		<head>
 			<style>
 			<![CDATA[
-		 
-			.onoff
+	 		 
+			ul 
 			{
-				width:32px;
-				height:32px;
-				padding:1px 2px 3px 3px;	
-				font-size:12px;
-				background:lightgray;
-				text-align:center;	
+				background-color: #F0F0F0 ;
+				//border-bottom: 2px solid #999999 ;
+				list-style-type: none ;
+				padding: 0px;
+				margin: 5px 0px 0px 0px;
+			}
+ 
+			ul.left
+			{
+			}
+ 
+			ul.right
+			{
+				text-align: right ;
+			}
+ 
+			ul li 
+			{
+				display: inline ;
+				padding: 0px;
 			}
 			
-			.onoff div
+			.infoDiv
 			{
-				width:18px;
-				height:18px;
-				min-height:18px;	
-				background:lightgray;
-				overflow:hidden;
-				border-top:1px solid gray;
-				border-right:1px solid white;
-				border-bottom:1px solid white;
-				border-left:1px solid gray;			
-				margin:0 auto;
-				color:gray;
-			}
-			
-			.setTable
-			{
-				border:1px;
-			}
-		 
-			.infoDivs
-			{
-				top:5px;
-				visibility:visible;
+				padding-top: 5px;
 				position:relative;
 				display:block;
 			}
@@ -48,80 +41,50 @@
 			</style>
 			<script type="text/javascript">
 			<![CDATA[
-	  
-			var buttonstate=0;
-			function onoff(element)
-			{
-				buttonstate= 1 - buttonstate;
-				var blabel, bstyle, bcolor;
-				if(buttonstate)
-				{
-					blabel="on";
-					bstyle="green";
-					bcolor="lightgreen";
-				}
-				else
-				{
-					blabel="off";
-					bstyle="lightgray";
-					bcolor="gray";
-				}
-				var child=element.firstChild;
-				child.style.background=bstyle;
-				child.style.color=bcolor;
-				child.innerHTML=blabel;
-			}
-	  
-	  
-			function showHide(id){			
-				var infoDivs = document.getElementsByClassName('infoDivs');
+	    
+			function showHide(id,sender){			
 				var e = document.getElementById(id);
 				if(e != undefined)
 				{
 					var eStatus = e.style.visibility;
-					for(var i = 0; i < infoDivs.length; i++)
-					{
-						infoDivs[i].style.visibility = 'hidden';
-						infoDivs[i].style.display = 'none';
-					} 
 					if (eStatus === 'visible')
 					{
 						e.style.visibility = 'hidden';
-						e.style.display = 'none';
+						e.style.display = 'none';						
+						sender.firstChild.data="+"
 					}
 					else
 					{
 						e.style.visibility = 'visible';
 						e.style.display = 'block';
+						sender.firstChild.data="-"
 					}
 				}
-				}
-				]]>
+			}
+		]]>
 	</script>
 	</head>
 		<body>
 			<div>
-            FxCop Tool Version <xsl:value-of select="@Version"/><br/>				
-			<button type="button" onclick ="showHide('Files');">Files: <xsl:value-of select="count(Targets/Target)"/></button>
-			<button type="button" onclick ="showHide('Rules');">Rules: <xsl:value-of select="count(Rules/Rule)"/></button>
-			<button type="button" onclick ="showHide('Namespaces');">Namespaces: <xsl:value-of select="count(Namespaces/Namespace)"/></button>
-			<button class="onoff" onclick="onoff(this)"><div>off</div></button>
+            FxCop Tool Version <xsl:value-of select="@Version"/><br/>
 			</div>
+			<div>
 			<xsl:call-template name="table">
 				<xsl:with-param name="data" select="Targets/Target"/>
-				<xsl:with-param name="title" select="'Name'"/>
-				<xsl:with-param name="id" select="'Files'"/>
-			</xsl:call-template>
-			<xsl:call-template name="table">
-				<xsl:with-param name="data" select="Rules/Rule"/>
-				<xsl:with-param name="title">TypeName</xsl:with-param>
-				<xsl:with-param name="id">Rules</xsl:with-param>
+				<xsl:with-param name="title">Name</xsl:with-param>
+				<xsl:with-param name="id">Files</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="table">
 			  <xsl:with-param name="data" select="Namespaces/Namespace"/>
 			  <xsl:with-param name="title">Name</xsl:with-param>
 			  <xsl:with-param name="id">Namespaces</xsl:with-param>
 			</xsl:call-template>
+			<xsl:call-template name="table">
+				<xsl:with-param name="data" select="Rules/Rule"/>
+				<xsl:with-param name="title">TypeName</xsl:with-param>
+				<xsl:with-param name="id">Rules</xsl:with-param>
+			</xsl:call-template>
+			</div>
 		</body>
 	</html>
 </xsl:template>	
@@ -130,18 +93,33 @@
 	<xsl:param name="data"/>
 	<xsl:param name="title"/>
 	<xsl:param name="id"/>
-	<div class="infoDivs">
-	<xsl:attribute name="id">
-		<xsl:value-of select="$id"/>
-	</xsl:attribute>
+	<div class="infoDiv">
+		<ul>
+		<li>
+			<button type="button">
+			<xsl:attribute name="onclick">
+				showHide('<xsl:value-of select="$id"/>',this);
+			</xsl:attribute>
+			-</button>
+		</li>
+		<li>
+			<xsl:value-of select="name($data[1]/..)"/> - <xsl:value-of select="count($data)"/>
+		</li>
+		</ul>
+	</div>
+	<div class="infoDiv" style="visibility:visible;">
+		<xsl:attribute name="id">
+			<xsl:value-of select="$id"/>
+		</xsl:attribute>	
+
 		<table border="1">
 			<xsl:for-each select="$data">				 
-				<xsl:sort select="@*[name() = $title]"/>
-					<tr><td>
-						<xsl:value-of select="position()"/>
-					</td><td>
-						<xsl:value-of select="@*[$title]"/>
-					</td></tr>
+				<xsl:sort select="@*[name()=$title]"/>
+				<tr><td>
+					<xsl:value-of select="position()"/>
+				</td><td>
+					<xsl:value-of select="@*[name()=$title]"/>
+				</td></tr>
 			</xsl:for-each>
 		</table>
 	</div>
