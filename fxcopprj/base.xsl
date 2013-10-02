@@ -9,7 +9,7 @@
 	 		 
 			ul 
 			{
-				background-color: #F0F0F0 ;
+				//background-color: #F0F0F0 ;
 				//border-bottom: 2px solid #999999 ;
 				list-style-type: none ;
 				padding: 0px;
@@ -67,13 +67,9 @@
 		<body>
 			<div>
             FxCop Tool Version <xsl:value-of select="@Version"/><br/>
+			<xsl:apply-templates select="Targets"/>
 			</div>
 			<div>
-			<xsl:call-template name="table">
-				<xsl:with-param name="data" select="Targets/Target"/>
-				<xsl:with-param name="title">Name</xsl:with-param>
-				<xsl:with-param name="id">Files</xsl:with-param>
-			</xsl:call-template>
 			<xsl:call-template name="table">
 			  <xsl:with-param name="data" select="Namespaces/Namespace"/>
 			  <xsl:with-param name="title">Name</xsl:with-param>
@@ -88,7 +84,7 @@
 		</body>
 	</html>
 </xsl:template>	
-			
+		
 <xsl:template name="table">
 	<xsl:param name="data"/>
 	<xsl:param name="title"/>
@@ -124,4 +120,41 @@
 		</table>
 	</div>
 </xsl:template>	
+
+<xsl:template match="Targets">
+    
+	<xsl:variable name="nodeTitle">
+		<xsl:value-of select="name(.)"/>
+	</xsl:variable>
+	
+	<div class="infoDiv">
+		<ul>
+		<li>
+			<button type="button">
+			<xsl:attribute name="onclick">
+				showHide('<xsl:value-of select="$nodeTitle"/>',this);
+			</xsl:attribute>
+			-</button>
+		</li>
+		<li>
+			<xsl:value-of select="$nodeTitle"/> - <xsl:value-of select="count(child::*)"/>
+		</li>
+		</ul>
+	</div>
+	<div class="infoDiv" style="visibility:visible;">
+		<xsl:attribute name="id">
+			<xsl:value-of select="$nodeTitle"/>
+		</xsl:attribute>	
+		<table border="1">
+			<xsl:for-each select="child::*">				 
+				<xsl:sort select="@Name"/>
+				<tr><td>
+					<xsl:value-of select="position()"/>
+				</td><td>
+					<xsl:value-of select="@Name"/>
+				</td></tr>
+			</xsl:for-each>
+		</table>
+	</div>
+</xsl:template>
 </xsl:stylesheet>
