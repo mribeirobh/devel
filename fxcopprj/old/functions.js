@@ -71,7 +71,21 @@ function displayResult(OutInfoId)
  if(is_chrome)
 	{
 		alert('Not supported on Chrome');
-		document.getElementById(OutInfoId).appendChild('Not supported on Chrome');
+		alert(document.location.href);
+		var xml = importXML(document.location.href);//loadXMLtext(document.location.href);
+		alert(xml);
+		alert(chrome.extension.getURL('base.xsl'));
+        var xsl = importXML(chrome.extension.getURL('base.xsl'));
+        alert(xsl);
+		var xsltPrs = new XSLTProcessor();
+		xsltPrs.importStylesheet(xsl);
+
+		var result = xsltPrs.transformToFragment(xml, document);
+
+		var xmlsrv = new XMLSerializer();
+		var plaintext = xmlsrv.serializeToString(result);
+		alert(plaintext);
+		document.getElementById(OutInfoId).innerHTML = plaintext;		
 	}
 else
 	{
@@ -92,4 +106,13 @@ else
 			document.getElementById(OutInfoId).appendChild(resultDocument);
 		}
 	}
+}
+
+function loadXMLtext(url)
+{
+  xhttp = new XMLHttpRequest();
+  xhttp.open("GET", url, false);
+  xhttp.send();
+  if(xhttp.responseXML == undefined) throw "XHR failed for " + url;
+  return xhttp.responseXML;
 }
