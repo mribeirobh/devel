@@ -1,9 +1,9 @@
 @echo off
 echo Processing FxCop...
 
-setlocal ENABLEDELAYEDEXPANSION
+setlocal ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
 
-REM Mounting Files
+REM Get Sources
 
 SET _files=
 
