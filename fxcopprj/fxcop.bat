@@ -14,6 +14,28 @@ SET DLLFILE=
 SET DLLSLIST=
 SET NULL=
 
+SET datetime=
+SET separator=#
+SET dthrfile=datahora.xsl
+SET modeldthrfile=modeldatahora.xsl
+
+echo Setting Date Hour File...
+del !dthrfile!
+for /f "tokens=1-3 delims=:," %%a in ("%TIME%") do (
+SET h=%%a
+if !h! lss 10 set h=!h: =0!
+SET datetime=!datetime!%DATE% !h!:%%b:%%c
+)
+
+for /f "tokens=*" %%l in (!modeldthrfile!) do (
+ set a=%%l
+ set b=%%l
+ set a=!a:value-of =!
+ if NOT !a!==!b! set b=^<^xsl:value-of select=^"'^!datetime!^'"/>^
+ echo !b! >> !dthrfile!
+)
+
+
 echo Getting List...
 rem echo %mydir%
 rem echo Solution: %~n1%~x1
@@ -50,6 +72,3 @@ for /f "skip=2 tokens=2 delims=," %%a in ('find ".csproj" %1') do (
   echo Processing FxCop...
   "c:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe"%DLLSLIST% /out:%CD%\relat.htm /oXsl:format.xsl /searchgac /axsl)
  if !DLLSLIST! == !NULL! echo NO DLL's FOUNDED
-  
-  
-

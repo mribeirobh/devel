@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:import href="datahora.xsl"/>
 <xsl:template match="/FxCopReport">
 	<html>
 		<head>
@@ -65,6 +66,7 @@
 		<body>
 			<div>
             FxCop Tool Version <xsl:value-of select="@Version"/><br/>
+			Gerado em: <xsl:call-template name="DATAHORA"/><br/>
 			<xsl:apply-templates select="Targets"/>
 			<xsl:apply-templates select="Namespaces"/>
 			<xsl:apply-templates select="Rules"/>
